@@ -1,0 +1,38 @@
+version: '3'
+services:
+  #######################################
+  # Adminer
+  #######################################
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  #######################################
+  # Mysql
+  #######################################
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'ING2'
+      MYSQL_USER: 'desarrollo'
+      MYSQL_PASSWORD: 'dev'
+      MYSQL_ROOT_PASSWORD: 'dev'
+    ports:
+      - '3306:3306'
+  #######################################
+  # php app
+  #######################################
+  app:
+    image: iavega/base-laravel:v1.0.0
+    links:
+      - db
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+      - "443"
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/httpd/sites:/etc/apache2/sites-enabled
