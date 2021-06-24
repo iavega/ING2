@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-class loginController extends Controller
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailDemo;
+class usuarioController extends Controller
 {
-  public function index()
+  public function loginIndex()
   {
     return view('Login.index');
   }
-  public function verificarlogin(request $request)
+  public function verificarLogin(request $request)
   {
     $data = $request->all();
     $data_user = \App\Models\User::where('User','=',$data['user'])->first();
@@ -19,13 +21,13 @@ class loginController extends Controller
     {
       return "user valido";
     }
-      return back()->with('error','El usuario o la contraseña son invalidos');
+    return back()->with('error','El usuario o la contraseña son invalidos');
   }
-  public function registrarse(){
+  public function registrarseIndex(){
     $list_group = \App\Models\Group::all()->pluck('ID_Group','ID_Group');
     return view('Registro.index',compact('list_group'));
   }
-  public function registrarse_save(request $request){
+  public function registrarseGuardar(request $request){
     $data = $request->all();
     $data['Type'] = 1;
     $validation_data = Validator::make($data,[
@@ -42,26 +44,21 @@ class loginController extends Controller
     }
     $data['Password'] = bcrypt($data['Password']);
     \App\Models\User::create($data);
-    return redirect()->action('App\Http\Controllers\loginController@index')->with('successful','El usuario se registro correctamente');;
+    return redirect()->action('App\Http\Controllers\usuarioController@index')->with('successful','El usuario se registro correctamente');;
   }
-  public function recuperar(){
+  public function recuperarIndex(){
     return view('Login.recuperar');
   }
-  public function recuperar_process(request $request){
+  public function recuperarContrasena(request $request){
     $data = $request->all();
-    // $data_user = \App\Models\User::where('Email','=',$data['Email'])->first();
-    // if ($data_user['Email'] == $data['Email']){
-
-    // }
-    $to_name = 'vega';
-    $to_email = 'vegaiam11@gmail.com';
-    $data = array('name'=>"Sam Jose", "body" => "Test mail");
-
-    Mail::send('emails.mail', $data, function($message) use ($to_name, $to_email) {
-        $message->to($to_email, $to_name)
-                ->subject('Artisans Web Testing Mail');
-        $message->from('FROM_EMAIL_ADDRESS','Artisans Web');
-    });
-    return redirect()->action('App\Http\Controllers\loginController@index')->with('successful','El ha enviado un correo para restaurar la contraseña');
+    $data_user = \App\Models\User::where('Email','=',$data['Email'])->first();
+    if ($data_user['Email'] == $data['Email']){
+      $mailData = [
+        'title' => 'Restablecer la contraseña',
+        'url' => ''
+      ];
+      Mail::to($data['Email'])->send(new EmailDemo($mailData));
+    }
+    return redirect()->action('App\Http\Controllers\usuarioController@index')->with('successful','El ha enviado un correo para restaurar la contraseña');
   }
 }

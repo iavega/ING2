@@ -24,12 +24,12 @@
     </div>
 
     <!-- Login Form -->
-    <form action="{{ action('App\Http\Controllers\loginController@verificarlogin') }}" method="POST">
+    <form action="{{ action('App\Http\Controllers\usuarioController@verificarLogin') }}" method="POST">
       @csrf
       <input type="text" id="login" class="fadeIn second" name="user" placeholder="Usuario">
       <input type="text" id="password" class="fadeIn third" name="passwd" placeholder="Contraseña">
       <input type="submit" class="fadeIn fourth" value="Iniciar Seccion">
-      <a href="{{ action('App\Http\Controllers\loginController@registrarse') }}" class="btn-registrarse" >Registrarse</a>
+      <a href="{{ action('App\Http\Controllers\usuarioController@registrarseIndex') }}" class="btn-registrarse" >Registrarse</a>
     </form>
     <div class="text-danger">
       @if(!empty(session('error')))
@@ -43,7 +43,7 @@
     </div>
     <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a class="underlineHover" href="{{ action('App\Http\Controllers\loginController@recuperar') }}">Ha olvidado la contraseña?</a>
+      <a class="underlineHover" href="{{ action('App\Http\Controllers\usuarioController@recuperarIndex') }}">Ha olvidado la contraseña?</a>
     </div>
 
   </div>

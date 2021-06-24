@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-md-6 offset-md-3 mt-5">
       <h2>Registrarse</h2>
-      <form action="{{ action('App\Http\Controllers\loginController@registrarse_save')}}" method="POST">
+      <form action="{{ action('App\Http\Controllers\usuarioController@registrarseGuardar')}}" method="POST">
           @csrf
           <!-- 2 column grid layout with text inputs for the first and last names -->
           <div class="row ">
