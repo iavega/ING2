@@ -19,7 +19,11 @@ class usuarioController extends Controller
     $data_user = \App\Models\User::where('User','=',$data['user'])->first();
     if(($data_user['User'] == $data['user']) && (password_verify($data['passwd'],$data_user['Password'])))
     {
-      return "user valido";
+      session(['userID'=>$data_user['id']]);
+      session(['userName'=>$data_user['User']]);
+      session(['login'=>True]);
+      return redirect()->route('dahsboard');
+
     }
     return back()->with('error','El usuario o la contraseña son invalidos');
   }
@@ -60,5 +64,9 @@ class usuarioController extends Controller
       Mail::to($data['Email'])->send(new EmailDemo($mailData));
     }
     return redirect()->action('App\Http\Controllers\usuarioController@index')->with('successful','El ha enviado un correo para restaurar la contraseña');
+  }
+  public function logoutAction(){
+    session(['login' => false]);
+    return redirect()->action('App\Http\Controllers\usuarioController@loginIndex');
   }
 }
