@@ -11,23 +11,23 @@ services:
   #######################################
   # Mysql
   #######################################
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'ING2'
-      MYSQL_USER: 'desarrollo'
-      MYSQL_PASSWORD: 'dev'
-      MYSQL_ROOT_PASSWORD: 'dev'
-    ports:
-      - '3306:3306'
+  # db:
+    # image: mysql:5.7
+    # restart: always
+    # environment:
+    #   MYSQL_DATABASE: 'ING2'
+    #   MYSQL_USER: 'desarrollo'
+    #   MYSQL_PASSWORD: 'dev'
+    #   MYSQL_ROOT_PASSWORD: 'dev'
+    # ports:
+    #   - '3306:3306'
   #######################################
   # php app
   #######################################
   app:
     image: iavega/base-laravel:v1.0.0
-    links:
-      - db
+    # links:
+    #   - db
     ports:
       - "80:80"
     expose:
