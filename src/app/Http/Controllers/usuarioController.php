@@ -9,28 +9,47 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailDemo;
 class usuarioController extends Controller
 {
-  public function loginIndex()
+  public function __construct()
   {
-    return view('Login.index');
+      $this->middleware('auth:api', ['except' => ['verificarLogin']]);
   }
+  // Metodo para verficar login
   public function verificarLogin(request $request)
   {
     $data = $request->all();
     $data_user = \App\Models\User::where('User','=',$data['user'])->first();
     if(($data_user['User'] == $data['user']) && (password_verify($data['passwd'],$data_user['Password'])))
     {
-      session(['userID'=>$data_user['id']]);
-      session(['userName'=>$data_user['User']]);
-      session(['login'=>True]);
-      return redirect()->route('dahsboard');
-
+      return $this->respondWithToken(auth()->login($data_user));
     }
-    return back()->with('error','El usuario o la contraseña son invalidos');
+    return response()->json(['error' => 'Unauthorized'], 401);
   }
-  public function registrarseIndex(){
-    $list_group = \App\Models\Group::all()->pluck('ID_Group','ID_Group');
-    return view('Registro.index',compact('list_group'));
+  // Metodo para formatear la respuesta
+  protected function respondWithToken($token)
+  {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
   }
+  // Metodo para mi informacion
+  public function me()
+  {
+    return response()->json(auth()->user());
+  }
+  public function logout()
+  {
+    auth()->logout();
+
+    return response()->json(['message' => 'Successfully logged out']);
+  }
+
+  public function refresh()
+  {
+      return $this->respondWithToken(auth()->refresh());
+  }
+
   public function registrarseGuardar(request $request){
     $data = $request->all();
     $data['Type'] = 1;
@@ -44,14 +63,11 @@ class usuarioController extends Controller
       'Email.unique' => 'El Correo ingresado ya existe'
     ]);
     if($validation_data->fails()){
-      return back()->withErrors($validation_data)->withInput();
+      return response()->json(['status' => 'error','data'=>$validation_data], 500);
     }
     $data['Password'] = bcrypt($data['Password']);
     \App\Models\User::create($data);
-    return redirect()->action('App\Http\Controllers\usuarioController@index')->with('successful','El usuario se registro correctamente');;
-  }
-  public function recuperarIndex(){
-    return view('Login.recuperar');
+    return response()->json(['status' => 'successful'], 200);
   }
   public function recuperarContrasena(request $request){
     $data = $request->all();
@@ -63,10 +79,6 @@ class usuarioController extends Controller
       ];
       Mail::to($data['Email'])->send(new EmailDemo($mailData));
     }
-    return redirect()->action('App\Http\Controllers\usuarioController@index')->with('successful','El ha enviado un correo para restaurar la contraseña');
-  }
-  public function logoutAction(){
-    session(['login' => false]);
-    return redirect()->action('App\Http\Controllers\usuarioController@loginIndex');
+    return response()->json(['status' => 'successful'], 200);
   }
 }
