@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserGroupGames extends Model
+class User extends Model
 {
     use HasFactory;
     protected $table = 'usuario';

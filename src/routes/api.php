@@ -24,6 +24,7 @@ Route::group([
     Route::post('login', 'App\Http\Controllers\usuarioController@verificarLogin');
     Route::get('refresh', 'App\Http\Controllers\usuarioController@refresh');
     Route::get('me', 'App\Http\Controllers\usuarioController@me');
+    Route::get('Questions', 'App\Http\Controllers\jugarController@get_questions');
 });
 Route::group([
     'middleware' => 'api',
