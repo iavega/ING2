@@ -16,13 +16,18 @@ class usuarioController extends Controller
   // Metodo para verficar login
   public function verificarLogin(request $request)
   {
-    $data = $request->all();
-    $data_user = \App\Models\UserGroupGames::where('username','=',$data['user'])->first();
-    if(($data_user['username'] == $data['user']) && (password_verify($data['passwd'],$data_user['psswd'])))
-    {
-      return $this->respondWithToken(auth()->login($data_user));
+    try {
+      $data = $request->all();
+      $data_user = \App\Models\UserGroupGames::where('username','=',$data['user'])->first();
+      if(($data_user['username'] == $data['user']) && (password_verify($data['passwd'],$data_user['psswd'])))
+      {
+        return $this->respondWithToken(auth()->login($data_user));
+      }
+      return response()->json(['error' => 'Unauthorized'], 401);
     }
-    return response()->json(['error' => 'Unauthorized'], 401);
+    catch(Exception $e){
+      return response()->json($e, 401);
+    }
   }
   // Metodo para formatear la respuesta
   protected function respondWithToken($token)
