@@ -18,7 +18,6 @@ class usuarioController extends Controller
   {
     $data = $request->all();
     $data_user = \App\Models\UserGroupGames::where('username','=',$data['user'])->first();
-    return response()->json($data_user, 200);
     if(($data_user['username'] == $data['user']) && (password_verify($data['passwd'],$data_user['psswd'])))
     {
       return $this->respondWithToken(auth()->login($data_user));
