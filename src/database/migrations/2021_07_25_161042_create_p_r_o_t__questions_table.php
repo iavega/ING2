@@ -14,8 +14,12 @@ class CreatePROTQuestionsTable extends Migration
     public function up()
     {
         Schema::create('p_r_o_t__questions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ID_Question');
+            $table->dateTime('CreationDate');
+            $table->decimal('PointAsig');
+            $table->string('Question');
+            $table->integer('ID_correctAnswer');
+            $table->integer('Level');
         });
     }
 

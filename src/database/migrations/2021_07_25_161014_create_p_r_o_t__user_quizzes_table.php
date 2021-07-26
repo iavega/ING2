@@ -14,8 +14,9 @@ class CreatePROTUserQuizzesTable extends Migration
     public function up()
     {
         Schema::create('p_r_o_t__user_quizzes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ID_quiz');
+            $table->datetime('DateQuiz');
+            $table->integer('IDUsuario');
         });
     }
 

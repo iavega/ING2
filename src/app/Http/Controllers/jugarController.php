@@ -7,16 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailDemo;
-class usuarioController extends Controller
+class jugarController extends Controller
 {
-  public function get_questions(request $request)
+  public function get_questions()
   {
-    $data = $request->all();
-    $data_user = \App\Models\User::where('User','=',$data['user'])->first();
-    if(($data_user['User'] == $data['user']) && (password_verify($data['passwd'],$data_user['Password'])))
-    {
-      return $this->respondWithToken(auth()->login($data_user));
-    }
-    return response()->json(['error' => 'Unauthorized'], 401);
+    $dataQuestions = \App\Models\Questions::first();
+    $dataAnswer =  \App\Models\Answers::where('ID_Question','=',$dataQuestions->ID_Question)->get();
+    $dataQuestions['Answer'] = $dataAnswer;
+    return response()->json($dataQuestions, 200);
   }
 }

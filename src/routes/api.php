@@ -21,12 +21,13 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
-
     Route::post('login', 'App\Http\Controllers\usuarioController@verificarLogin');
     Route::get('refresh', 'App\Http\Controllers\usuarioController@refresh');
     Route::get('me', 'App\Http\Controllers\usuarioController@me');
-    // Route::post('logout', 'AuthController@logout');
-    // Route::post('refresh', 'AuthController@refresh');
-    // Route::post('me', 'AuthController@me');
-
+});
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'game'
+], function ($router) {
+    Route::get('Questions', 'App\Http\Controllers\jugarController@get_questions');
 });

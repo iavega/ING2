@@ -14,8 +14,12 @@ class CreatePROTLessonsTable extends Migration
     public function up()
     {
         Schema::create('p_r_o_t__lessons', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ID_Lesson');
+            $table->string('Title');
+            $table->string('Description');
+            $table->string('Picture');
+            $table->string('Picture');
+            $table->string('Picture');
         });
     }
 

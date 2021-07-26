@@ -14,8 +14,9 @@ class CreateUsuarioGameGroupsTable extends Migration
     public function up()
     {
         Schema::create('usuario__game__groups', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ID_quiz');
+            $table->string('DateQuiz');
+            $table->integer('IDUsuario');
         });
     }
 

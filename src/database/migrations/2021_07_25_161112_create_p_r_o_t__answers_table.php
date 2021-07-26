@@ -14,8 +14,10 @@ class CreatePROTAnswersTable extends Migration
     public function up()
     {
         Schema::create('p_r_o_t__answers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('ID_Answer');
+            $table->integer('ID_Question');
+            $table->string('Remember');
+            $table->string('Answer');
         });
     }
 
