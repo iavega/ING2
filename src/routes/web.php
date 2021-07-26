@@ -13,18 +13,18 @@ use App\Http\Controllers\MailController;
 |
 */
 // Pagina Login
-Route::get('/', 'App\Http\Controllers\usuarioController@loginIndex');
-Route::get('/logout', 'App\Http\Controllers\usuarioController@logoutAction');
-Route::post('/login', 'App\Http\Controllers\usuarioController@verificarLogin');
-// Pagina Recuperar Contraseña
-Route::get('/recuperar', 'App\Http\Controllers\usuarioController@recuperarIndex');
-Route::post('/recuperar', 'App\Http\Controllers\usuarioController@recuperarContrasena');
-// Pagina Registrarse
-Route::get('/registrars', 'App\Http\Controllers\usuarioController@registrarseIndex');
-Route::post('/registrars', 'App\Http\Controllers\usuarioController@registrarseGuardar');
-// Pagina Dashboard
-Route::middleware(['verificarLogin'])->group(function () {
-    Route::get('/dahsboard',function(){
-      return view('dashboard');
-    })->name('dahsboard');
-});
+// Route::get('/', 'App\Http\Controllers\usuarioController@loginIndex');
+// Route::get('/logout', 'App\Http\Controllers\usuarioController@logoutAction');
+// Route::post('/login', 'App\Http\Controllers\usuarioController@verificarLogin');
+// // Pagina Recuperar Contraseña
+// Route::get('/recuperar', 'App\Http\Controllers\usuarioController@recuperarIndex');
+// Route::post('/recuperar', 'App\Http\Controllers\usuarioController@recuperarContrasena');
+// // Pagina Registrarse
+// Route::get('/registrars', 'App\Http\Controllers\usuarioController@registrarseIndex');
+// Route::post('/registrars', 'App\Http\Controllers\usuarioController@registrarseGuardar');
+// // Pagina Dashboard
+// Route::middleware(['verificarLogin'])->group(function () {
+//     Route::get('/dahsboard',function(){
+//       return view('dashboard');
+//     })->name('dahsboard');
+// });

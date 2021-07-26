@@ -41,6 +41,7 @@ class usuarioController extends Controller
   // Metodo para mi informacion
   public function me()
   {
+    return "";
     return response()->json(auth()->user());
   }
   public function logout()
